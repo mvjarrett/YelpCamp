@@ -1,0 +1,24 @@
+/* body {
+	background-image: url(https://www.wallpaperflare.com/static/927/756/33/minimalism-forest-night-moon-rays-wallpaper-preview.jpg);
+	background-size: 100% 100%;
+}
+html {
+	height: 100%;
+} */
+
+.thumbnail img {
+	width: 100%;
+}
+
+.thumbnail {
+	padding: 0;
+	/* max-height: 270px; */
+}
+
+/* div.thumbnail {
+	max-height: 270px;
+} */
+
+.deleteForm {
+	display: inline;
+}
