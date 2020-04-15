@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Campground = require('../models/campground');
 var checkAuth = require('../middleware/check-auth');
+var CampgroundController = require('../controllers/campground');
 
 //INDEX ROUTE - show all campgrounds
 router.get('/', function(req, res) {
@@ -16,23 +17,7 @@ router.get('/', function(req, res) {
 });
 
 //CREATE ROUTE - add new campground to db
-router.post('/', checkAuth.isLoggedIn, function(req, res) {
-	var name = req.body.name;
-	var image = req.body.image;
-	var desc = req.body.description;
-	var author = {
-		id: req.user._id,
-		username: req.user.username
-	};
-	var newCampground = { name: name, image: image, description: desc, author: author };
-	Campground.create(newCampground, function(err, newlyCreated) {
-		if (err) {
-			console.log(err);
-		} else {
-			res.redirect('/campgrounds');
-		}
-	});
-});
+router.post('/', checkAuth.isLoggedIn, CampgroundController.createCampground);
 
 //NEW ROUTE - show form to create new campgrounds
 router.get('/new', checkAuth.isLoggedIn, function(req, res) {
