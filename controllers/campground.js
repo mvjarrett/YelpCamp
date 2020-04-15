@@ -20,7 +20,7 @@ exports.createCampground = (req, res) => {
 
 exports.readCampground = (req, res) => {
 	Campground.findById(req.params.id, (err, campground) => {
-		res.render('campgrounds/edit', { campground });
+		res.render('campgrounds/show', { campground });
 	})
 };
 
