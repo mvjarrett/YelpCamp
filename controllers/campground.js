@@ -19,9 +19,14 @@ exports.createCampground = (req, res) => {
 };
 
 exports.readCampground = (req, res) => {
-	Campground.findById(req.params.id, (err, campground) => {
-		res.render('campgrounds/show', { campground });
-	})
+	Campground.findById(req.params.id).populate('comments').exec(function(err, foundCampground) {
+		if (err || !foundCampground) {
+			req.flash('error', 'Campground not found.');
+			res.redirect('back');
+		} else {
+			res.render('campgrounds/show', { campground: foundCampground });
+		}
+	});
 };
 
 exports.readCampgrounds = (req, res) => {
