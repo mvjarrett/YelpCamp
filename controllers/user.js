@@ -2,37 +2,27 @@ const mongoose = require('mongoose'),
       User = require('../models/user');
 
 exports.showLanding = (req, res) => {
-	res.render('landing');
+	res.render('../views/users/landing');
 }
 
-exports.signUp = (req, res) => {
-	res.render('register');
+exports.login = (req, res) => {
+  res.render('../views/users/login');
+}
+
+exports.signup = (req, res) => {
+	res.render('../views/users/register');
 }
 
 exports.register = (req, res) => {
 	var newUser = new User({ username: req.body.username });
-	User.register(newUser, req.body.password, function(err, user) {
+	User.register(newUser, req.body.password, (err, user) => {
 		if (err) {
 			req.flash('error', err.message);
-			return res.redirect('login');
+			return res.redirect('../views/users/login');
 		}
-		passport.authenticate('local')(req, res, function() {
+		passport.authenticate('local')(req, res, () => {
 			req.flash('success', 'Successfully Signed Up! Nice to meet you ' + req.body.username + '.');
-			return res.redirect('/campgrounds');
-		});
-	});
-}
-
-exports.login = (req, res) => {
-	var newUser = new User({ username: req.body.username });
-	User.register(newUser, req.body.password, function(err, user) {
-		if (err) {
-			req.flash('error', err.message);
-			return res.redirect('login');
-		}
-		passport.authenticate('local')(req, res, function() {
-			req.flash('success', 'Successfully Signed Up! Nice to meet you ' + req.body.username + '.');
-			return res.redirect('/campgrounds');
+			return res.redirect('../views/users/campgrounds');
 		});
 	});
 }

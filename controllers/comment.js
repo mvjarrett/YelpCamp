@@ -52,7 +52,7 @@ exports.editComment = (req, res) => {
 }
 
 exports.updateComment = (req, res) => {
-	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
+	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => {
 		if (err) {
 			res.redirect('back');
 		} else {
@@ -62,7 +62,7 @@ exports.updateComment = (req, res) => {
 }
 
 exports.deleteComment = (req, res) => {
-	Comment.findByIdAndRemove(req.params.comment_id, function(err) {
+	Comment.findByIdAndRemove(req.params.comment_id, (err) => {
 		if (err) {
 			res.redirect('back');
 		} else {

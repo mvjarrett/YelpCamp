@@ -4,8 +4,8 @@ var checkAuth = require('../middleware/check-auth');
 var CampgroundController = require('../controllers/campground');
 
 //create
-router.post('/', checkAuth.isLoggedIn, CampgroundController.createCampground);
 router.get('/new', checkAuth.isLoggedIn, CampgroundController.newCampground);
+router.post('/', checkAuth.isLoggedIn, CampgroundController.createCampground);
 
 //read
 router.get('/', CampgroundController.readCampgrounds);
