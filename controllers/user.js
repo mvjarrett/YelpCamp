@@ -1,9 +1,6 @@
 const mongoose = require('mongoose'),
-      User = require('../models/user');
-
-exports.showLanding = (req, res) => {
-	res.render('../views/users/landing');
-}
+      User = require('../models/user'),
+      passport = require('passport');;
 
 exports.login = (req, res) => {
   res.render('../views/users/login');
@@ -18,11 +15,11 @@ exports.register = (req, res) => {
 	User.register(newUser, req.body.password, (err, user) => {
 		if (err) {
 			req.flash('error', err.message);
-			return res.redirect('../views/users/login');
+			return res.redirect('/login');
 		}
 		passport.authenticate('local')(req, res, () => {
 			req.flash('success', 'Successfully Signed Up! Nice to meet you ' + req.body.username + '.');
-			return res.redirect('../views/users/campgrounds');
+			return res.redirect('/');
 		});
 	});
 }
@@ -30,5 +27,5 @@ exports.register = (req, res) => {
 exports.logout = (req, res) => {
 	req.logout();
 	req.flash('success', 'Logged you out!');
-	res.redirect('/campgrounds');
+	res.redirect('/');
 }
