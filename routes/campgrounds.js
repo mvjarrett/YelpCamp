@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var Campground = require('../models/campground');
 var checkAuth = require('../middleware/check-auth');
 var CampgroundController = require('../controllers/campground');
 
