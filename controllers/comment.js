@@ -19,18 +19,17 @@ exports.createComment = (req, res) => {
 			console.log(err);
 			res.redirect('/campgrounds');
 		} else {
-			Comment.create(req.body.comment, (err, comment) => {
-				if (err) {
-					req.flash('error', 'Something went wrong.');
-				} else {
-					comment.author.id = req.user._id;
-					comment.author.username = req.user.username;
-					comment.save();
-					campground.comments.push(comment);
-					campground.save();
-					res.redirect('/campgrounds/' + campground._id);
-				}
-			});
+      const author = { id: req.user._id, username: req.user.username },
+            text = req.body.comment.text;
+      Comment.create({ text, author }, (err, comment) => {
+        if (err) {
+          req.flash('error', 'Something went wrong.');
+        } else {
+          campground.comments.push(comment);
+          campground.save();
+          res.redirect('/campgrounds/' + campground._id);
+        }
+      });
 		}
 	});
 }
