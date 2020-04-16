@@ -4,8 +4,8 @@ var Comment = require('../models/comment');
 
 var checkAuth = {};
 
-checkAuth.checkCampOwner = function(req, res, next) {
-  Campground.findById(req.params.id, function(err, foundCampground) {
+checkAuth.checkCampOwner = (req, res, next) => {
+  Campground.findById(req.params.id, (err, foundCampground) => {
     if (err || !foundCampground) {
       req.flash('error', 'Campground not found.');
       res.redirect('back');
@@ -20,8 +20,8 @@ checkAuth.checkCampOwner = function(req, res, next) {
   });
 };
 
-checkAuth.checkCommentOwner = function(req, res, next) {
-	Comment.findById(req.params.comment_id, function(err, foundComment) {
+checkAuth.checkCommentOwner = (req, res, next) => {
+	Comment.findById(req.params.comment_id, (err, foundComment) => {
     if (err || !foundComment) {
       req.flash('error', 'Comment not found.');
       res.redirect('back');
@@ -36,7 +36,7 @@ checkAuth.checkCommentOwner = function(req, res, next) {
   });
 };
 
-checkAuth.isLoggedIn = function isLoggedIn(req, res, next) {
+checkAuth.isLoggedIn = (req, res, next) => {
 	if (req.isAuthenticated()) {
 		return next();
 	}

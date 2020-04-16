@@ -1,21 +1,17 @@
 var express = require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
-	// dotenv = require('dotenv'),
 	dotenv = require('dotenv').config(),
 	mongoose = require('mongoose'),
 	flash = require('connect-flash'),
 	passport = require('passport'),
 	LocalStrategy = require('passport-local'),
 	methodOverride = require('method-override'),
-	Campground = require('./models/campground'),
-	Comment = require('./models/comment'),
-	User = require('./models/user'),
-	seedDB = require('./seeds');
+  User = require('./models/user');
 
 var commentRoutes = require('./routes/comments'),
 	campgroundRoutes = require('./routes/campgrounds'),
-	indexRoutes = require('./routes/index');
+	userRoutes = require('./routes/users');
 
 mongoose.connect('mongodb://localhost/yelp_camp', { useNewUrlParser: true, useUnifiedTopology: true });
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,7 +24,6 @@ app.use(flash());
 //  of 3 campgrounds with a comment or two each
 // seedDB();
 
-// PASSPORT CONFIG
 app.use(
 	require('express-session')({
 		secret: process.env.PASSPORT_SECRET_KEY,
@@ -50,7 +45,8 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.use('/', indexRoutes);
+app.use('/', userRoutes);
+app.use('/', campgroundRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/comments', commentRoutes);
 
