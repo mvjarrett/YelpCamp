@@ -25,7 +25,7 @@ exports.readCampground = (req, res) => {
 
 exports.readCampgrounds = (req, res) => {
   Campground.find().then(campgrounds => {
-    res.render('campgrounds/index', { campgrounds, currentUser: req.user });
+    res.render('campgrounds/index', { campgrounds });
   }).catch(err => {
     console.log(err);
   });
