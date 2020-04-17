@@ -2,7 +2,7 @@
 var Campground = require('../models/campground');
 var Comment = require('../models/comment');
 
-exports.checkCampOwner = (req, res, next) => {
+exports.isCampOwner = (req, res, next) => {
   Campground.findById(req.params.id, (err, foundCampground) => {
     if (err || !foundCampground) {
       req.flash('error', 'Campground not found.');
@@ -18,7 +18,7 @@ exports.checkCampOwner = (req, res, next) => {
   });
 };
 
-exports.checkCommentOwner = (req, res, next) => {
+exports.isCommentOwner = (req, res, next) => {
 	Comment.findById(req.params.comment_id, (err, foundComment) => {
     if (err || !foundComment) {
       req.flash('error', 'Comment not found.');

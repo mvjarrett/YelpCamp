@@ -12,10 +12,10 @@ router.get('/', CampgroundController.readCampgrounds);
 router.get('/:id', CampgroundController.readCampground);
 
 //update
-router.get('/:id/edit', [checkAuth.isLoggedIn, checkAuth.checkCampOwner], CampgroundController.editCampground);
-router.put('/:id', [checkAuth.isLoggedIn, checkAuth.checkCampOwner], CampgroundController.updateCampground);
+router.get('/:id/edit', [checkAuth.isLoggedIn, checkAuth.isCampOwner], CampgroundController.editCampground);
+router.put('/:id', [checkAuth.isLoggedIn, checkAuth.isCampOwner], CampgroundController.updateCampground);
 
 //delete
-router.delete('/:id', [checkAuth.isLoggedIn, checkAuth.checkCampOwner], CampgroundController.deleteCampground);
+router.delete('/:id', [checkAuth.isLoggedIn, checkAuth.isCampOwner], CampgroundController.deleteCampground);
 
 module.exports = router;
