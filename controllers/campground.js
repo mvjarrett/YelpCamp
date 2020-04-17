@@ -2,66 +2,60 @@ const mongoose = require('mongoose'),
       Campground = require('../models/campground');
 
 
-exports.newCampground = (req, res) => {
-  res.render('campgrounds/new');
-};
+exports.newCampground = (req, res) => res.render('campgrounds/new');
 
 exports.createCampground = (req, res) => {
-	const author = { id: req.user._id, username: req.user.username},
-	      campground = { ...req.body, author };
-	Campground.create(campground, (err, newCampground) => {
-		if (err) {
-			console.log(err);
-		} else {
-			res.redirect(`campgrounds/${newCampground._id}`);
-		}
-	})
+  const campground = { ...req.body, author: req.user._id };
+
+	Campground.create(campground).then(newCampground => {
+		res.redirect(`campgrounds/${newCampground._id}`);
+	}).catch(err => {
+    console.log(err);
+  });
 };
 
 exports.readCampground = (req, res) => {
-	Campground.findById(req.params.id).populate('comments').exec(function(err, foundCampground) {
-		if (err || !foundCampground) {
+	Campground.findById(req.params.id).populate('author', 'comments').exec(function(err, campground) {
+		if (err || !campground) {
 			req.flash('error', 'Campground not found.');
 			res.redirect('back');
 		} else {
-			res.render('campgrounds/show', { campground: foundCampground });
+      console.log(campground);
+			res.render('campgrounds/show', { campground });
 		}
 	});
 };
 
 exports.readCampgrounds = (req, res) => {
-  Campground.find({}, (err, allCampgrounds) => {
-    if (err) { 
-      console.log(err); 
-    } else { 
-      res.render('campgrounds/index', { campgrounds: allCampgrounds, currentUser: req.user }); 
-    }
-  })
+  Campground.find().then(campgrounds => {
+    res.render('campgrounds/index', { campgrounds, currentUser: req.user });
+  }).catch(err => {
+    console.log(err);
+  });
 };
 
 exports.editCampground = (req, res) => {
-  Campground.findById(req.params.id, (err, foundCampground) => {
-    res.render('campgrounds/edit', { campground: foundCampground });
+  Campground.findById(req.params.id).then(campground => {
+    res.render('campgrounds/edit', { campground });
+  }).catch(err => {
+    console.log(err);
   });
 }
 
 exports.updateCampground = (req, res) => {
-	Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err) => {
-		if (err) {
-			res.redirect('/campgrounds');
-		} else {
-			res.redirect('/campgrounds/' + req.params.id);
-		}
-	})
+	Campground.findByIdAndUpdate(req.params.id, req.body.campground).then(campground => {
+    res.redirect(`/campgrounds/${req.params.id}`);
+  }).catch(err => {
+		res.redirect('/campgrounds');
+	});
 };
 
 exports.deleteCampground = (req, res) => {
-	Campground.findByIdAndRemove(req.params.id, (err) => {
-		if (err) {
-			res.redirect('/campgrounds');
-		} else {
-			req.flash('success', 'Campground Deleted!');
-			res.redirect('/campgrounds');
-		}
-	})
-};
+	Campground.findByIdAndRemove(req.params.id).then(() => {
+    req.flash('success', 'Campground Deleted!');
+    res.redirect('/');
+  }).catch(err => {
+    req.flash('error', 'Campground not Deleted!');
+    res.redirect('/');
+  });
+}
