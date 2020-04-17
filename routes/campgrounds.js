@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var { isLoggedIn, isCampOwner } = require('../middleware/check-auth');
-var { newCampground, createCampground, editCampground, updateCampground, deleteCampground } = require('../controllers/campground');
+var { newCampground, createCampground, editCampground, updateCampground, readCampground, readCampgrounds, deleteCampground } = require('../controllers/campground');
 
 //create
 router.get('/new', isLoggedIn, newCampground);
