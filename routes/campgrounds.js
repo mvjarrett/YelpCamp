@@ -1,21 +1,21 @@
 var express = require('express');
 var router = express.Router();
-var checkAuth = require('../middleware/check-auth');
-var CampgroundController = require('../controllers/campground');
+var { isLoggedIn, isCampOwner } = require('../middleware/check-auth');
+var { newCampground, createCampground, editCampground, updateCampground, deleteCampground } = require('../controllers/campground');
 
 //create
-router.get('/new', checkAuth.isLoggedIn, CampgroundController.newCampground);
-router.post('/', checkAuth.isLoggedIn, CampgroundController.createCampground);
+router.get('/new', isLoggedIn, newCampground);
+router.post('/', isLoggedIn, createCampground);
 
 //read
-router.get('/', CampgroundController.readCampgrounds);
-router.get('/:id', CampgroundController.readCampground);
+router.get('/', readCampgrounds);
+router.get('/:id', readCampground);
 
 //update
-router.get('/:id/edit', [checkAuth.isLoggedIn, checkAuth.isCampOwner], CampgroundController.editCampground);
-router.put('/:id', [checkAuth.isLoggedIn, checkAuth.isCampOwner], CampgroundController.updateCampground);
+router.get('/:id/edit', [isLoggedIn, isCampOwner], editCampground);
+router.put('/:id', [isLoggedIn, isCampOwner], updateCampground);
 
 //delete
-router.delete('/:id', [checkAuth.isLoggedIn, checkAuth.isCampOwner], CampgroundController.deleteCampground);
+router.delete('/:id', [isLoggedIn, isCampOwner], deleteCampground);
 
 module.exports = router;
