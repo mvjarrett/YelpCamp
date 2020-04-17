@@ -48,11 +48,11 @@ exports.updateCampground = (req, res) => {
 };
 
 exports.deleteCampground = (req, res) => {
-	Campground.findByIdAndRemove(req.params.id).then(() => {
+	Campground.findByIdAndDelete(req.params.id).then(() => {
     req.flash('success', 'Campground Deleted!');
-    res.redirect('/');
   }).catch(err => {
     req.flash('error', 'Campground not Deleted!');
+  }).then(() => {
     res.redirect('/');
   });
 }
