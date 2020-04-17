@@ -26,7 +26,7 @@ checkAuth.checkCommentOwner = (req, res, next) => {
       req.flash('error', 'Comment not found.');
       res.redirect('back');
     } else {
-      if (foundComment.author.id.equals(req.user._id)) {
+      if (foundComment.author.equals(req.user._id)) {
         next();
       } else {
         req.flash('error', 'You do not have permission to do that.');
