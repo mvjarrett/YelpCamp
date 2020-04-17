@@ -15,15 +15,12 @@ exports.createCampground = (req, res) => {
 };
 
 exports.readCampground = (req, res) => {
-	Campground.findById(req.params.id).populate('author', 'comments').exec(function(err, campground) {
-		if (err || !campground) {
-			req.flash('error', 'Campground not found.');
-			res.redirect('back');
-		} else {
-      console.log(campground);
-			res.render('campgrounds/show', { campground });
-		}
-	});
+	Campground.findById(req.params.id).populate('author').populate({path: 'comments', populate: { path: 'author' }}).then(campground => {
+    res.render('campgrounds/show', { campground });
+  }).catch(err => {
+    req.flash('error', 'Campground not found.');
+    res.redirect('back');
+  });
 };
 
 exports.readCampgrounds = (req, res) => {
