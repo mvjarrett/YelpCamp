@@ -2,9 +2,7 @@
 var Campground = require('../models/campground');
 var Comment = require('../models/comment');
 
-var checkAuth = {};
-
-checkAuth.checkCampOwner = (req, res, next) => {
+exports.checkCampOwner = (req, res, next) => {
   Campground.findById(req.params.id, (err, foundCampground) => {
     if (err || !foundCampground) {
       req.flash('error', 'Campground not found.');
@@ -20,7 +18,7 @@ checkAuth.checkCampOwner = (req, res, next) => {
   });
 };
 
-checkAuth.checkCommentOwner = (req, res, next) => {
+exports.checkCommentOwner = (req, res, next) => {
 	Comment.findById(req.params.comment_id, (err, foundComment) => {
     if (err || !foundComment) {
       req.flash('error', 'Comment not found.');
@@ -36,12 +34,10 @@ checkAuth.checkCommentOwner = (req, res, next) => {
   });
 };
 
-checkAuth.isLoggedIn = (req, res, next) => {
+exports.isLoggedIn = (req, res, next) => {
 	if (req.isAuthenticated()) {
 		return next();
 	}
 	req.flash('error', 'You need to be logged in to do that!');
 	res.redirect('/login');
 };
-
-module.exports = checkAuth;
