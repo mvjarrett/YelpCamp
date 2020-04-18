@@ -1,7 +1,6 @@
 const mongoose = require('mongoose'),
       Campground = require('../models/campground');
 
-
 exports.newCampground = (req, res) => res.render('campgrounds/new');
 
 exports.createCampground = (req, res) => {
