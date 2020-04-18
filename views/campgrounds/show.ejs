@@ -1,5 +1,4 @@
 <%- include("../partials/header") %>
-
 <div class="container">
     <div class="row">
         <div class="col-md-3">
@@ -18,7 +17,7 @@
                     <h4><a href=""><%=campground.name%></a></h4>
                     <p><%= campground.description %></p>
                     <p><em>Submitted by <%= campground.author.username %></em></p>
-                    <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                    <% if(currentUser && campground.author.equals(currentUser._id)){ %>
                     <a class="btn btn-warning" href="/campgrounds/<%=campground._id%>/edit">Edit This Campground</a>
                     <form class="deleteForm" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
                     <button class="btn btn-danger">Delete</button>
@@ -34,10 +33,10 @@
                 <% campground.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12">
-                            <strong><%= comment.author && comment.author.username %></strong>
+                            <strong><%= comment.author.username %></strong>
                             <span class="pull-right">10 days ago</span>
                             <p> <%= comment.text %> </p>
-                            <% if(currentUser && comment.author && comment.author.id.equals(currentUser._id)){ %>
+                            <% if(currentUser && comment.author._id.equals(currentUser._id)){ %>
                             <a class="btn btn-xs btn-warning" href="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>/edit">Edit</a>
                             <form class="deleteForm" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
                                 <button class="btn btn-xs btn-danger">Delete</button>
@@ -50,9 +49,4 @@
         </div>
     </div>
 </div>
-
-
-
-
-
 <%- include("../partials/footer") %>
